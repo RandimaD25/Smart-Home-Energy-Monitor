@@ -48,3 +48,21 @@ export const updateDevice = async (
     res.status(500).json({ message: "Failed to update device" });
   }
 };
+
+// Delete a device
+export const deleteDevice = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const device = await Device.findByIdAndDelete(req.params.id);
+    if (!device) {
+      res.status(404).json({ message: "Device not found" });
+      return;
+    }
+    res.status(200).json({ message: "Device deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting device:", error);
+    res.status(500).json({ message: "Failed to delete device" });
+  }
+};
